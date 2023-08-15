@@ -1,12 +1,25 @@
-import React from 'react';
-import { useController } from 'react-hook-form';
+import React from "react";
+import { Control, useController } from "react-hook-form";
 
-function InputCheckbox({ name = '', children, control, ...props }) {
+interface InputCheckboxProps {
+  name?: string;
+  children?: React.ReactNode;
+  control: Control;
+  [key: string]: any; // Allow additional props
+}
+
+function InputCheckbox({
+  name = "",
+  children,
+  control,
+  ...props
+}: InputCheckboxProps) {
   const { field } = useController({
     control,
     name,
     shouldUnregister: true,
   });
+
   return (
     <div className="flex items-center gap-x-[16px]">
       <input
@@ -23,4 +36,5 @@ function InputCheckbox({ name = '', children, control, ...props }) {
     </div>
   );
 }
+
 export default InputCheckbox;

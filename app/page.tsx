@@ -1,23 +1,24 @@
-'use client';
+"use client";
+import { NextPage } from "next";
+import React, { useState } from "react";
+import { toggleCollapsed } from "@/redux/reducers/menuReducer";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-
-import FormValidation from '@/components/Form/FormValidation';
-import Navbar from '@/components/Navbar';
-
-import Application from '@/svgs/application.svg';
-import Bars from '@/svgs/bars.svg';
-import Fullscreen from '@/svgs/Fullscreen.svg';
-import Notifications from '@/svgs/Notifications.svg';
-import Search from '@/svgs/search.svg';
-import Settings from '@/svgs/Settings.svg';
-
-function Home() {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+import Application from "@/svgs/application.svg";
+import Bars from "@/svgs/bars.svg";
+import Fullscreen from "@/svgs/Fullscreen.svg";
+import Notifications from "@/svgs/Notifications.svg";
+import Search from "@/svgs/search.svg";
+import Settings from "@/svgs/Settings.svg";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import FormValidation from "@/components/FormValidation";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { RootState } from "@/redux/reducers";
+export interface Props {}
+const Home: NextPage<Props> = () => {
+  const collapsed = useSelector((state: RootState) => state.menu.collapsed);
+  const dispatch = useDispatch();
   return (
     <section>
       <div className="fixed top-0 left-0 w-full">
@@ -27,7 +28,7 @@ function Home() {
               <h2>Meta Technology</h2>
             </div>
             <div className="flex  items-center gap-x-[20px]">
-              <button type="button" onClick={toggleCollapsed}>
+              <button type="button" onClick={() => dispatch(toggleCollapsed())}>
                 <Bars className="text-[24px]" />
               </button>
               <div className="relative ">
@@ -68,14 +69,21 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="mt-[68px]">
-        <div className="fixed top-[68px] left-0 h-full bg-[#252b3b] overflow-y-auto pb-[68px] ">
-          <Navbar collapsed={collapsed} />
+      <div className="mt-[68px] ">
+        <div className="fixed top-[68px] left-0 h-full bg-[#252b3b] overflow-y-auto pb-[68px]">
+          <div className="lg:inline-block hidden">
+            <Navbar collapsed={collapsed} />
+          </div>
         </div>
-        <FormValidation collapsed={collapsed} />
+        <div className="absolute top-[68px] left-0 h-[100vh] bg-[#252b3b] overflow-y-auto pb-[68px]">
+          <div className="inline-block lg:hidden overflow-hidden">
+            <Navbar collapsed={collapsed} />
+          </div>
+        </div>
+        <FormValidation collapsed={collapsed}></FormValidation>
       </div>
     </section>
   );
-}
+};
 
 export default Home;

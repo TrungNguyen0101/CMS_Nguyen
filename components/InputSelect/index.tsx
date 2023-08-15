@@ -1,14 +1,28 @@
-import React from 'react';
-import { useController } from 'react-hook-form';
+import React from "react";
+import { Control, useController } from "react-hook-form";
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface InputSelectProps {
+  name?: string;
+  className?: string;
+  children?: React.ReactNode;
+  control: Control;
+  options: Option[];
+  [key: string]: any; // Allow additional props
+}
 
 function InputSelect({
-  name = '',
+  name = "",
   className,
   children,
   control,
-  options, // Mảng các tùy chọn cho select
+  options,
   ...props
-}) {
+}: InputSelectProps) {
   const { field } = useController({
     control,
     name,
@@ -26,13 +40,13 @@ function InputSelect({
         id={name}
         name={name}
         className={`bg-[#252b3b] rounded py-[10px] px-[10px] leading-[21px] duration-300  border 
-               focus:placeholder-[#6e768b] h-[38px] focus:bg-[#272d3d] text-[14px] leading outline-none  text-[#6e768b] ${className} `}
+               focus:placeholder-[#6e768b] h-[38px]  focus:bg-[#272d3d] text-[14px] leading outline-none  text-[#6e768b] ${className} `}
         {...field}
         {...props}
       >
         {options.map((option, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <option key={index} value={option.value}>
+          <option key={index} value={option.value} className="max-w-[200px]">
             {option.label}
           </option>
         ))}
